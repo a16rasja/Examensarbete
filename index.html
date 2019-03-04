@@ -1,13 +1,35 @@
 <html lang="sv">
-  <head>
-    <meta charset="utf-8">
-    <title>Examensarbete VT2019</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <title>Examensarbete VT2019</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div id="menu">
+    <i>Artekfakt</i>
+  </div>
+  <div class="container" id="tempcontainer">
     <h1>Detta är Examensarbetet 2019</h1>
     <p>
       Detta är artefakten för Rasmus Jarenmarks exjobb VT2019
     </p>
-  </body>
+  </div>
+  <div class="container" id="container">
+    <p>
+      <button type="button" onclick="loadDoc(); ">Super Hemligt Meddelande</button>
+    </p>
+  </div>
+
+  <div class="container" id="formcontainer">
+    Namn: <input type="text" id="uname"><br />
+    Efternamn: <input type="text" id="ulname"><br />
+    Mail: <input type="text" id="umail"><br />
+    <input type="submit" name="userSubmit" onclick="createUser();">
+  </div>
+</body>
+
 </html>
