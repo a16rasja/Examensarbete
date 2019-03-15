@@ -28,3 +28,48 @@ function createUser() {
 function hideElement() {
   document.getElementById('container').innerHTML = '<p><button type="button" onclick="loadDoc(); ">Super Hemligt Meddelande</button></p>';
 }
+
+function changeNameObf() {
+  //data to be obfuscated
+  var oldArray = [{
+    name: "Bengt",
+    lname: "Åkesson",
+    umail: "bå@åke.se"
+  }, {
+    name: "Sven",
+    lname: "Johnsson",
+    umail: "sj@se.se"
+  }, {
+    name: "Bertil",
+    lname: "Eriksson",
+    umail: "be@er.se"
+  }]
+
+  //Array filled with replacement indexes
+  var indexArray = {}
+  indexArray["name"] = "a";
+  indexArray["lname"] = "b";
+  indexArray["umail"] = "c";
+  //console.log(indexArray);
+
+  //Array
+  var nyArray = [];
+  var i = 1;
+  //console.log(oldArray);
+  oldArray.forEach(function(element) {
+    var tempArray = {};
+    for (var obj in oldArray[0]) {
+      tempArray[indexArray[obj]] = element[obj];
+      i++;
+    }
+    console.log("temp " + tempArray);
+    nyArray.push(tempArray);
+  });
+  oldArray.forEach(function(e) {
+    console.log(e);
+  });
+  nyArray.forEach(function(e) {
+    console.log(e);
+  });
+
+}
