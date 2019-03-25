@@ -1,4 +1,303 @@
 //data to be obfuscated
+/*var arrayObfuscation = JSON.stringify({
+  "type": "FeatureCollection",
+  "features": [{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.568182834705,
+          52.512686718189
+        ]
+      },
+      "properties": {
+        "id": "Node-1502960",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 9.463 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766881"
+        ],
+        "spokeEndIds": [
+          "Link-1766877"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.620502068974,
+          52.513080288447
+        ]
+      },
+      "properties": {
+        "id": "Node-1502961",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 13.03 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766905"
+        ],
+        "spokeEndIds": [
+          "Link-1766901"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.68741827755,
+          52.519370609717
+        ]
+      },
+      "properties": {
+        "id": "Node-1502964",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 17.625 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766929"
+        ],
+        "spokeEndIds": [
+          "Link-1766925"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.704574329801,
+          52.521013404508
+        ]
+      },
+      "properties": {
+        "id": "Node-1502965",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 18.805 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766937"
+        ],
+        "spokeEndIds": [
+          "Link-1766933"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.649197534302,
+          52.515762737608
+        ]
+      },
+      "properties": {
+        "id": "Node-1502962",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 15.0 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766913"
+        ],
+        "spokeEndIds": [
+          "Link-1766909"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.649721721877,
+          52.515811716669
+        ]
+      },
+      "properties": {
+        "id": "Node-1502963",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 15.036 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766917"
+        ],
+        "spokeEndIds": [
+          "Link-1766913"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.772096521155,
+          52.527296155555
+        ]
+      },
+      "properties": {
+        "id": "Node-1502968",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 23.438 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766953"
+        ],
+        "spokeEndIds": [
+          "Link-1766949"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.784625959854,
+          52.528459696823
+        ]
+      },
+      "properties": {
+        "id": "Node-1502969",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 24.297 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766957"
+        ],
+        "spokeEndIds": [
+          "Link-1766953"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.754335672508,
+          52.525639440064
+        ]
+      },
+      "properties": {
+        "id": "Node-1502966",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 22.22 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766941"
+        ],
+        "spokeEndIds": [
+          "Link-1766937"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.762042517928,
+          52.526330930336
+        ]
+      },
+      "properties": {
+        "id": "Node-1502967",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 22.748 Bln Warschauer Str - Strausbg",
+        "spokeStartIds": [
+          "Link-1766945"
+        ],
+        "spokeEndIds": [
+          "Link-1766941"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.098456780195,
+          49.410277634619
+        ]
+      },
+      "properties": {
+        "id": "Node-1502950",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 2.801 N Minervabr - Rbf Einf, Gl 485",
+        "spokeStartIds": [
+          "Link-1765973"
+        ],
+        "spokeEndIds": [
+          "Link-1765969"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.101195069563,
+          49.41030036378
+        ]
+      },
+      "properties": {
+        "id": "Node-1502951",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 3 N Minervabr - Rbf Einf, Gl 485",
+        "spokeStartIds": [
+          "Link-1765977"
+        ],
+        "spokeEndIds": [
+          "Link-1765973"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.103774386495,
+          49.409715473314
+        ]
+      },
+      "properties": {
+        "id": "Node-1502952",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 3.2 N Minervabr - Rbf Einf, Gl 485",
+        "spokeStartIds": [
+          "Link-1765981"
+        ],
+        "spokeEndIds": [
+          "Link-1765977"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.082782159828,
+          49.416960008366
+        ]
+      },
+      "properties": {
+        "id": "Node-1502953",
+        "formOfNode": "levelCrossing",
+        "geographicalName": "Bü 0.001 Nürnberg Rbf - Dutzendteich",
+        "spokeStartIds": [
+          "Link-1766065"
+        ],
+        "spokeEndIds": [
+          "Link-1766061"
+        ]
+      }
+    }
+  ]
+});*/
+//data to be obfuscated
 var arrayObfuscation = JSON.stringify([{
     "_id": "5c8f672b9f6be526c4533f8f",
     "index": 0,
@@ -321,6 +620,9 @@ var arrayObfuscation = JSON.stringify([{
   }
 ]);
 
+var indexArray = {}
+var charCode = 97;
+
 function loadDoc() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -355,15 +657,33 @@ function hideElement() {
 function changeNameObf(arrayJSON) {
   var oldArray = JSON.parse(arrayJSON);
   //console.log("woop: " + oldArray);
+  console.log(Array.isArray(oldArray));
+  if (!Array.isArray(oldArray)) {
+    var temp = [];
+    temp.push(oldArray);
+    oldArray = temp;
+    console.log(oldArray);
+  }
 
 
   //Array filled with replacement indexes
-  var indexArray = {}
-  var charCode = 97;
   for (var obj in oldArray[0]) {
     //console.log("old" + obj + " Code: " + charCode + " is: " + String.fromCharCode(charCode));
+    tempCode = charCode - 97;
+    //console.log("Tempbode pre: " + String.fromCharCode((tempCode % 26) + 97) + " temp: " + (tempCode > 122 - 96))
+    if (tempCode > 122 - 96) {
+      tempCode = (tempCode % 122) + 97;
+      /*indexArray[obj] = String.fromCharCode((charCode % 122) + 97);
+      indexArray[obj] += Math.floor(charCode / 122);*/
+    }
+    if (!indexArray[obj]) {
+      indexArray[obj] = String.fromCharCode((tempCode % 26) + 97);
+      indexArray[obj] += Math.floor(charCode / 122);
+    } else {
+      console.log(obj + " fanns redan i tabellen!");
+    }
 
-    indexArray[obj] = String.fromCharCode(charCode);
+    console.log(indexArray[obj]);
     charCode++;
   }
   //console.log(indexArray);
@@ -379,7 +699,7 @@ function changeNameObf(arrayJSON) {
       //check if column contains data.
       //console.log("jajaj" + Array.isArray(element[obj]));
       //if (Array.isArray(element[obj])) console.log("Hittade en array!" + typeof(element[obj][0]));
-      if (typeof(element[obj][0]) == 'object') {
+      if (typeof(element[obj]) == 'object') {
         //console.log(element[obj]);
         element[obj] = changeNameObf(JSON.stringify(element[obj]));
       }
@@ -393,10 +713,33 @@ function changeNameObf(arrayJSON) {
   });
 
   oldArray.forEach(function(e) {
+    console.log("Den som inte har blivit obfuskerad!")
     console.log(e);
   });
   nyArray.forEach(function(e) {
+    console.log("Den som har blivit obfuskerad!")
     console.log(e);
   });
   return nyArray;
+}
+
+function printArray(arrayToPrint, printContainerName) {
+  var printArray = JSON.parse(arrayToPrint);
+  var printPlace = document.getElementById(printContainerName);
+  var text = "<table>";
+  for (var o in printArray[0]) {
+    text += "<th>" + o + "</th>"
+  }
+  printArray.forEach(function(e) {
+    text += "<tr>"
+    for (var obj in printArray[0]) {
+      text += "<td>" + e[obj] + "</td> ";
+    }
+    text += "</tr>";
+  })
+  text += "</table>"
+
+  printPlace.innerHTML = text;
+
+  console.log(printPlace.innerHTML);
 }

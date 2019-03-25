@@ -8,7 +8,7 @@
   <script src="script.js"></script>
 </head>
 
-<body onload="changeNameObf(arrayObfuscation);">
+<body onload="changeNameObf(arrayObfuscation); printArray(arrayObfuscation, 'old'); ">
   <div id="menu">
     <i>Artekfakt</i>
   </div>
@@ -18,6 +18,15 @@
       Detta är artefakten för Rasmus Jarenmarks exjobb VT2019
     </p>
   </div>
+
+  <div class="container" id="old">
+    <h1>Gamla arrayen kommer skrivas ut här</h1>
+  </div>
+
+  <div class="container" id="new">
+    <h1>Nya arrayen kommer skrivas ut här</h1>
+  </div>
+
   <div class="container" id="container">
     <p>
       <button type="button" onclick="loadDoc(); ">Super Hemligt Meddelande</button>
