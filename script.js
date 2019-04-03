@@ -119,11 +119,13 @@ function caesarEncryption(arrayJSON) {
     oldArray = temp;
     console.log(oldArray);
   }
+  //Save all indexes in Array
   var indexNames = [];
   for (var obj in oldArray[0]) {
     indexNames.push(obj);
   }
 
+  //Encrypt index names
   for (var x = 0; x < indexNames.length; x++) {
     var tempString = indexNames[x];
     var replacementString = "";
@@ -135,7 +137,30 @@ function caesarEncryption(arrayJSON) {
     indexNames[x] = replacementString;
   }
 
+  //Encrypt
+  oldArray.forEach(function(e) {
+    e.forEach(function(l) {
+      console.log(el);
+    })
+
+    console.log(e);
+    console.log(e.size);
+    for (var x = 0; x < e.length; x++) {
+      var tempString = e[x];
+      console.log(e[x]);
+      var replacementString = "";
+
+      for (var i = 0; i < tempString.length; i++) {
+        replacementString += String.fromCharCode(tempString[i].charCodeAt(tempString[i]) + q);
+      }
+      console.log(replacementString)
+      oldArray[x] = replacementString;
+    }
+  })
+
+
   console.log(indexNames);
+  console.log(oldArray);
 }
 
 
