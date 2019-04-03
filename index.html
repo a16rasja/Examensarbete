@@ -5,10 +5,11 @@
   <title>Examensarbete VT2019</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="convertcsv.json"></script>
   <script src="script.js"></script>
 </head>
 
-<body onload="changeNameObf(arrayObfuscation); printArray(arrayObfuscation, 'old'); ">
+<body onload="changeNameObf(JSON.stringify(data))">
   <div id="menu">
     <i>Artekfakt</i>
   </div>
