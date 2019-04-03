@@ -1,5 +1,14 @@
 var indexArray = {}
+var obfuscatedArray;
 var charCode = 97;
+
+function init() {
+  //save obfuscated array, obfuscate data fron external file.
+
+  //printSchedule(JSON.stringify(data), 'old');
+  obfuscatedArray = caesarEncryption(JSON.stringify(data));
+  //printSchedule(obfuscatedArray, 'new');
+}
 
 function loadDoc() {
   var xhttp = new XMLHttpRequest();
@@ -59,7 +68,6 @@ function changeNameObf(arrayJSON) {
   oldArray.forEach(function(element) {
     var tempArray = {};
     for (var obj in oldArray[0]) {
-      console.log("typeof" + typeof(element[obj]));
       if (typeof(element[obj]) == 'object') {
         element[obj] = changeNameObf(JSON.stringify(element[obj]));
       }
@@ -80,8 +88,56 @@ function changeNameObf(arrayJSON) {
     console.log("Den som har blivit obfuskerad!")
     console.log(e);
   });
-  return nyArray;
+  return JSON.stringify(nyArray);
 }
+
+function printSchedule(printItem, printPlace) {
+  printPlace = document.getElementById(printPlace);
+  printItem = JSON.parse(printItem);
+  var text = "";
+
+  printItem.forEach(function(e) {
+    text += "<div class='scheduleItem'>"
+    for (var index in e) {
+      console.log(e[index])
+      text += index + ": " + e[index] + "<br>";
+    }
+    text += "</div>";
+  })
+  printPlace.innerHTML += text;
+}
+
+//Obfuscation function caesar encryption
+function caesarEncryption(arrayJSON) {
+  var oldArray = JSON.parse(arrayJSON);
+  var q = 3;
+
+  //make sure object is inside of array
+  if (!Array.isArray(oldArray)) {
+    var temp = [];
+    temp.push(oldArray);
+    oldArray = temp;
+    console.log(oldArray);
+  }
+  var indexNames = [];
+  for (var obj in oldArray[0]) {
+    indexNames.push(obj);
+  }
+
+  for (var x = 0; x < indexNames.length; x++) {
+    var tempString = indexNames[x];
+    var replacementString = "";
+
+    for (var i = 0; i < tempString.length; i++) {
+      replacementString += String.fromCharCode(tempString[i].charCodeAt(tempString[i]) + q);
+    }
+
+    indexNames[x] = replacementString;
+  }
+
+  console.log(indexNames);
+}
+
 
 function printArray(arrayToPrint, printContainerName) {
   var printArray = JSON.parse(arrayToPrint);
@@ -92,7 +148,7 @@ function printArray(arrayToPrint, printContainerName) {
   }
   printArray.forEach(function(e) {
     text += "<tr>"
-    for (var obj in printArray[0]) {
+    for (var obj in p) {
       text += "<td>" + e[obj] + ":</td> ";
     }
     text += "</tr>";
