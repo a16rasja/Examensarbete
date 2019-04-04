@@ -1,12 +1,17 @@
 var indexArray = {}
 var obfuscatedArray;
 var charCode = 97;
+var jqueryData;
 
 function init() {
   //save obfuscated array, obfuscate data fron external file.
-
+  $("#button").click(function() {
+    $.get("servers.php?make=0", function(data, status) {
+      $("#old").html(data);
+    });
+  });
   //printSchedule(JSON.stringify(data), 'old');
-  obfuscatedArray = caesarEncryption(JSON.stringify(data));
+  //obfuscatedArray = caesarEncryption(JSON.stringify(data));
   //printSchedule(obfuscatedArray, 'new');
 }
 
