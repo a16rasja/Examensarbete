@@ -10,9 +10,9 @@ function init() {
       $("#old").html(data);
     });
   });
-  //printSchedule(JSON.stringify(data), 'old');
-  //obfuscatedArray = caesarEncryption(JSON.stringify(data));
-  //printSchedule(obfuscatedArray, 'new');
+  printSchedule(JSON.stringify(data), 'old');
+  obfuscatedArray = caesarEncryption(JSON.stringify(data));
+  printSchedule(obfuscatedArray, 'new');
 }
 
 function loadDoc() {
@@ -33,7 +33,7 @@ function createUser() {
   var umail = document.getElementById('umail').value;
   var xhttp = new XMLHttpRequest();
 
-  console.log("Klickade");
+  //console.log("Klickade");
   xhttp.open("GET", "servers.php?make=1&uName=" + uname + "&uLastName=" + ulname + "&uMail=" + umail, true);
   xhttp.send();
 
@@ -55,7 +55,7 @@ function changeNameObf(arrayJSON) {
     var temp = [];
     temp.push(oldArray);
     oldArray = temp;
-    console.log(oldArray);
+    //console.log(oldArray);
   }
 
   //Fill array with replacement indexes
@@ -85,13 +85,13 @@ function changeNameObf(arrayJSON) {
 
   //print unobfuscated array in console
   oldArray.forEach(function(e) {
-    console.log("Den som inte har blivit obfuskerad!")
-    console.log(e);
+    //console.log("Den som inte har blivit obfuskerad!")
+    //console.log(e);
   });
   //print obfuscated array in console
   nyArray.forEach(function(e) {
-    console.log("Den som har blivit obfuskerad!")
-    console.log(e);
+    //console.log("Den som har blivit obfuskerad!")
+    //console.log(e);
   });
   return JSON.stringify(nyArray);
 }
@@ -104,7 +104,7 @@ function printSchedule(printItem, printPlace) {
   printItem.forEach(function(e) {
     text += "<div class='scheduleItem'>"
     for (var index in e) {
-      console.log(e[index])
+      //console.log(e[index])
       text += index + ": " + e[index] + "<br>";
     }
     text += "</div>";
@@ -115,6 +115,7 @@ function printSchedule(printItem, printPlace) {
 //Obfuscation function caesar encryption
 function caesarEncryption(arrayJSON) {
   var oldArray = JSON.parse(arrayJSON);
+  var encryptedArray = [];
   var q = 3;
 
   //make sure object is inside of array
@@ -122,50 +123,39 @@ function caesarEncryption(arrayJSON) {
     var temp = [];
     temp.push(oldArray);
     oldArray = temp;
-    console.log(oldArray);
-  }
-  //Save all indexes in Array
-  var indexNames = [];
-  for (var obj in oldArray[0]) {
-    indexNames.push(obj);
+    //console.log(oldArray);
   }
 
-  //Encrypt index names
-  for (var x = 0; x < indexNames.length; x++) {
-    var tempString = indexNames[x];
-    var replacementString = "";
-
-    for (var i = 0; i < tempString.length; i++) {
-      replacementString += String.fromCharCode(tempString[i].charCodeAt(tempString[i]) + q);
-    }
-
-    indexNames[x] = replacementString;
-  }
-
-  //Encrypt
   oldArray.forEach(function(e) {
-    e.forEach(function(l) {
-      console.log(el);
-    })
+    var indexNames = [];
+    var tempArray = {};
 
-    console.log(e);
-    console.log(e.size);
-    for (var x = 0; x < e.length; x++) {
-      var tempString = e[x];
-      console.log(e[x]);
-      var replacementString = "";
+    for (var obj in e) {
+      indexNames[obj] = "";
+      var tempDataString = e[obj];
+      var replacementDataString = "";
 
-      for (var i = 0; i < tempString.length; i++) {
-        replacementString += String.fromCharCode(tempString[i].charCodeAt(tempString[i]) + q);
+      //Encrypts index names
+      for (var i = 0; i < obj.length; i++) {
+        indexNames[obj] += String.fromCharCode(obj[i].charCodeAt() + q);
       }
-      console.log(replacementString)
-      oldArray[x] = replacementString;
+
+      //Convert number to string
+      if (typeof(tempDataString) == "number") {
+        tempDataString = tempDataString.toString();
+      }
+
+      //Encrypts data in array
+      for (var i = 0; i < tempDataString.length; i++) {
+        replacementDataString += String.fromCharCode(tempDataString[i].charCodeAt() + q);
+      }
+
+
+      tempArray[indexNames[obj]] = replacementDataString;
     }
-  })
-
-
-  console.log(indexNames);
-  console.log(oldArray);
+    encryptedArray.push(tempArray);
+  });
+  return JSON.stringify(encryptedArray);
 }
 
 
@@ -187,5 +177,5 @@ function printArray(arrayToPrint, printContainerName) {
 
   printPlace.innerHTML = text;
 
-  console.log(printPlace.innerHTML);
+  //console.log(printPlace.innerHTML);
 }
