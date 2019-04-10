@@ -47,3 +47,11 @@ form {
 ::selection {
   background: rgba(255, 165, 0, 0.8);
 }
+
+.scheduleItem {
+  width: 50%;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 10px;
+}
