@@ -6,13 +6,21 @@ var jqueryData;
 function init() {
   //save obfuscated array, obfuscate data fron external file.
   $("#button").click(function() {
-    $.get("servers.php?make=0", function(data, status) {
-      $("#old").html(data);
+    var response = '';
+    console.log("clicked");
+    $.ajax({
+      type: "GET",
+      url: "servers.php?make=0",
+      success: function(text) {
+        response = text;
+        console.log(response);
+        $("#new").html(response);
+      }
     });
   });
-  printSchedule(JSON.stringify(data), 'old');
-  obfuscatedArray = caesarEncryption(JSON.stringify(data));
-  printSchedule(obfuscatedArray, 'new');
+  //printSchedule(JSON.stringify(data), 'old');
+  //obfuscatedArray = caesarEncryption(JSON.stringify(data));
+  //printSchedule(obfuscatedArray, 'new');
 }
 
 function loadDoc() {
@@ -96,22 +104,6 @@ function changeNameObf(arrayJSON) {
   return JSON.stringify(nyArray);
 }
 
-function printSchedule(printItem, printPlace) {
-  printPlace = document.getElementById(printPlace);
-  printItem = JSON.parse(printItem);
-  var text = "";
-
-  printItem.forEach(function(e) {
-    text += "<div class='scheduleItem'>"
-    for (var index in e) {
-      //console.log(e[index])
-      text += index + ": " + e[index] + "<br>";
-    }
-    text += "</div>";
-  })
-  printPlace.innerHTML += text;
-}
-
 //Obfuscation function caesar encryption
 function caesarEncryption(arrayJSON) {
   var oldArray = JSON.parse(arrayJSON);
@@ -158,8 +150,39 @@ function caesarEncryption(arrayJSON) {
   return JSON.stringify(encryptedArray);
 }
 
+//Function for printing schedule array into div
+function printSchedule(printItem, printPlace) {
+  printPlace = document.getElementById(printPlace);
+  printItem = JSON.parse(printItem);
+  var text = "";
 
-function printArray(arrayToPrint, printContainerName) {
+  printItem.forEach(function(e) {
+    text += "<div class='scheduleItem'>"
+    for (var index in e) {
+      //console.log(e[index])
+      text += index + ": " + e[index] + "<br>";
+    }
+    text += "</div>";
+  })
+  printPlace.innerHTML += text;
+}
+
+function insertObject() {
+  var v = $("#objectField").val();
+  v = changeNameObf(v);
+  console.log("servers.php?make=1&jsonstring=" + v);
+  $.ajax({
+    type: "get",
+    url: "servers.php?make=1&data=" + v,
+    success: function(data) {
+      alert("Data saved: " + data);
+    }
+  })
+
+  console.log("klickade på insert knappen!" + v);
+}
+
+/*function printArray(arrayToPrint, printContainerName) {
   var printArray = JSON.parse(arrayToPrint);
   var printPlace = document.getElementById(printContainerName);
   var text = "<table>";
@@ -178,4 +201,4 @@ function printArray(arrayToPrint, printContainerName) {
   printPlace.innerHTML = text;
 
   //console.log(printPlace.innerHTML);
-}
+}*/
