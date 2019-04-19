@@ -237,10 +237,6 @@ function caesarDecryption(arrayJSON) {
   });
   console.log(encryptedArray);
   return JSON.stringify(encryptedArray);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
 
 function printArray(arrayToPrint, printContainerName) {
