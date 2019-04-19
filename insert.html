@@ -1,0 +1,32 @@
+<html lang="sv">
+
+<head>
+  <meta charset="utf-8">
+  <title>Examensarbete VT2019</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="convertcsv.json"></script>
+  <script src="script.js"></script>
+  <script src="jquery/jquery-3.3.1.js"></script>
+</head>
+
+<body onload="init();">
+  <div id="menu">
+    <i>Artekfakt</i>
+  </div>
+  <div class="container" id="tempcontainer">
+    <h1>Detta är Examensarbetet 2019</h1>
+    <p>
+      Detta är artefakten för Rasmus Jarenmarks exjobb VT2019
+    </p>
+  </div>
+
+  <div class="container" id="old">
+    <h1>Sätt in data:</h1>
+    Objekt: <input type="text" id="objectField"><br />
+    <input type="submit" class="submitObject" onclick="insertObject();">
+  </div>
+
+</body>
+
+</html>
