@@ -3,9 +3,6 @@ $mysqli = new mysqli("localhost", "root", "", "exjobb");
 if($mysqli->connect_error) {
   exit('Could not connect');
 }
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 $sql = "SELECT * FROM users";
 
 /*$stmt = $mysqli->prepare($sql);
@@ -39,9 +36,6 @@ if(isset($_GET["make"]) && $_GET["make"] == 1){
   $umail = $_GET["uMail"];
   $sql = "INSERT INTO users (name, lastname, mail)
           VALUES ('$uname', '$ulname', '$umail')";
-=======
-=======
->>>>>>> Stashed changes
 
 if(isset($_GET["make"]) && $_GET["make"] == 0){
   $sql = "SELECT * FROM data";
@@ -62,10 +56,6 @@ if(isset($_GET["make"]) && $_GET["make"] == 1){
   //echo "yoyoyoyo " . $jsondata . " was it data here?";
   $sql = "INSERT INTO data (data)
           VALUES ('$jsondata')";
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
   if ($mysqli->query($sql) === TRUE) {
       $last_id = $mysqli->insert_id;
