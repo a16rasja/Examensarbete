@@ -2,6 +2,7 @@ var indexArray = {}
 var obfuscatedArray;
 var charCode = 97;
 var jqueryData;
+var string;
 
 function init() {
   //save obfuscated array, obfuscate data fron external file.
@@ -13,8 +14,11 @@ function init() {
       url: "servers.php?make=0",
       success: function(text) {
         response = text;
+        //string = response;
+        response = response.replace(/\\"/g, '\'');
+        //response = caesarDecryption(response);
         console.log(response);
-        $("#new").html(response);
+        $("#new").html(caesarDecryption(response));
       }
     });
   });
@@ -139,7 +143,13 @@ function caesarEncryption(arrayJSON) {
 
       //Encrypts data in array
       for (var i = 0; i < tempDataString.length; i++) {
-        replacementDataString += String.fromCharCode(tempDataString[i].charCodeAt() + q);
+        var newCharcode = tempDataString[i].charCodeAt();
+        if (newCharcode == 32 || newCharcode == 92 - 3) {
+          console.log("92||32>")
+          replacementDataString += String.fromCharCode(newCharcode);
+        } else {
+          replacementDataString += String.fromCharCode(newCharcode + q);
+        }
       }
 
 
@@ -147,7 +157,7 @@ function caesarEncryption(arrayJSON) {
     }
     encryptedArray.push(tempArray);
   });
-  return JSON.stringify(encryptedArray);
+  return JSON.stringify(encryptedArray[0]);
 }
 
 //Function for printing schedule array into div
@@ -168,18 +178,75 @@ function printSchedule(printItem, printPlace) {
 }
 
 function insertObject() {
+  var start = new Date();
   var v = $("#objectField").val();
-  v = changeNameObf(v);
-  console.log("servers.php?make=1&jsonstring=" + v);
+  v = caesarEncryption(v);
+  //console.log("servers.php?make=1&jsonstring=" + v);
   $.ajax({
     type: "get",
     url: "servers.php?make=1&data=" + v,
     success: function(data) {
-      alert("Data saved: " + data);
+
+      bool = true;
+      $("#objectField").val("");
+      var diff = new Date() - start;
+      console.log(diff);
+      return;
     }
   })
 
-  console.log("klickade på insert knappen!" + v);
+  //console.log("klickade på insert knappen!" + v);
+}
+
+function caesarDecryption(arrayJSON) {
+  var oldArray = JSON.parse(arrayJSON);
+  var encryptedArray = [];
+  var q = 3;
+
+  //make sure object is inside of array
+  if (!Array.isArray(oldArray)) {
+    var temp = [];
+    temp.push(oldArray);
+    oldArray = temp;
+    //console.log(oldArray);
+  }
+
+  oldArray.forEach(function(e) {
+    var indexNames = [];
+    var tempArray = {};
+
+    for (var obj in e) {
+      indexNames[obj] = "";
+      var tempDataString = e[obj];
+      var replacementDataString = "";
+
+      //Encrypts index names
+      for (var i = 0; i < obj.length; i++) {
+        indexNames[obj] += String.fromCharCode(obj[i].charCodeAt() - q);
+      }
+
+      //Convert number to string
+      if (typeof(tempDataString) == "number") {
+        tempDataString = tempDataString.toString();
+      }
+
+      //Encrypts data in array
+      for (var i = 0; i < tempDataString.length; i++) {
+        var newCharcode = tempDataString[i].charCodeAt();
+        if (newCharcode == 32 || newCharcode == (92 - 3)) {
+          replacementDataString += String.fromCharCode(newCharcode);
+        } else {
+          replacementDataString += String.fromCharCode(newCharcode - q);
+        }
+      }
+
+
+      tempArray[indexNames[obj]] = replacementDataString;
+    }
+    encryptedArray.push(tempArray);
+  });
+  console.log(encryptedArray);
+  return JSON.stringify(encryptedArray);
 }
 
 /*function printArray(arrayToPrint, printContainerName) {
