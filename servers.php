@@ -9,9 +9,15 @@ if(isset($_GET["make"]) && $_GET["make"] == 0){
   $sql = "SELECT * FROM data";
 $result = mysqli_query($mysqli, $sql);
 $jsonarray = '[';
+$index = 1;
+$num_rows =  mysqli_num_rows($result);
 while($row = mysqli_fetch_array($result)) {
-  $jsonarray .= $row['data'] . '';
-  break;
+  if($index < $num_rows){
+    $jsonarray .= $row['data'] . ',';
+  }else{
+    $jsonarray .= $row['data'];
+  }
+  $index++;
 }
 $jsonarray .= ']';
 

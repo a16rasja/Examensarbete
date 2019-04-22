@@ -3,9 +3,12 @@ var obfuscatedArray;
 var charCode = 97;
 var jqueryData;
 var string;
+var b = true;
+var i = (localStorage.getItem('count') != null) ? JSON.parse(localStorage.getItem('count')) : 0;
 
 function init() {
   //save obfuscated array, obfuscate data fron external file.
+  //$(document).ready(function() {
   $("#button").click(function() {
     var response = '';
     console.log("clicked");
@@ -17,8 +20,19 @@ function init() {
         //string = response;
         response = response.replace(/\\"/g, '\'');
         //response = caesarDecryption(response);
-        console.log(response);
-        $("#new").html(caesarDecryption(response));
+        printSchedule(response, 'new')
+
+      }
+    }).then(function() {
+      i++
+      localStorage.setItem('count', i);
+      console.log("i: " + i);
+      if (i < 100) {
+        console.log("ladda om sidan");
+        window.location.reload();
+      } else {
+        console.log(localStorage.getItem('timeArray'));
+        localStorage.clear();
       }
     });
   });
@@ -136,19 +150,20 @@ function caesarEncryption(arrayJSON) {
         indexNames[obj] += String.fromCharCode(obj[i].charCodeAt() + q);
       }
 
-      //Convert number to string
-      if (typeof(tempDataString) == "number") {
-        tempDataString = tempDataString.toString();
-      }
+      if (tempDataString != null) {
+        //Convert number to string
+        if (typeof(tempDataString) == "number") {
+          tempDataString = tempDataString.toString();
+        }
 
-      //Encrypts data in array
-      for (var i = 0; i < tempDataString.length; i++) {
-        var newCharcode = tempDataString[i].charCodeAt();
-        if (newCharcode == 32 || newCharcode == 92 - 3) {
-          console.log("92||32>")
-          replacementDataString += String.fromCharCode(newCharcode);
-        } else {
-          replacementDataString += String.fromCharCode(newCharcode + q);
+        //Encrypts data in array
+        for (var i = 0; i < tempDataString.length; i++) {
+          var newCharcode = tempDataString[i].charCodeAt();
+          if (newCharcode == 32 || newCharcode == 92 - 3) {
+            replacementDataString += String.fromCharCode(newCharcode);
+          } else {
+            replacementDataString += String.fromCharCode(newCharcode + q);
+          }
         }
       }
 
@@ -174,7 +189,7 @@ function printSchedule(printItem, printPlace) {
     }
     text += "</div>";
   })
-  printPlace.innerHTML += text;
+  printPlace.innerHTML = text;
 }
 
 function insertObject() {
@@ -190,7 +205,7 @@ function insertObject() {
       bool = true;
       $("#objectField").val("");
       var diff = new Date() - start;
-      console.log(diff);
+      //console.log(diff);
       return;
     }
   })
@@ -199,6 +214,7 @@ function insertObject() {
 }
 
 function caesarDecryption(arrayJSON) {
+  var s = new Date();
   var oldArray = JSON.parse(arrayJSON);
   var encryptedArray = [];
   var q = 3;
@@ -225,18 +241,20 @@ function caesarDecryption(arrayJSON) {
         indexNames[obj] += String.fromCharCode(obj[i].charCodeAt() - q);
       }
 
-      //Convert number to string
-      if (typeof(tempDataString) == "number") {
-        tempDataString = tempDataString.toString();
-      }
+      if (tempDataString != null) {
+        //Convert number to string
+        if (typeof(tempDataString) == "number") {
+          tempDataString = tempDataString.toString();
+        }
 
-      //Encrypts data in array
-      for (var i = 0; i < tempDataString.length; i++) {
-        var newCharcode = tempDataString[i].charCodeAt();
-        if (newCharcode == 32 || newCharcode == (92 - 3)) {
-          replacementDataString += String.fromCharCode(newCharcode);
-        } else {
-          replacementDataString += String.fromCharCode(newCharcode - q);
+        //Encrypts data in array
+        for (var i = 0; i < tempDataString.length; i++) {
+          var newCharcode = tempDataString[i].charCodeAt();
+          if (newCharcode == 32 || newCharcode == (92 - 3)) {
+            replacementDataString += String.fromCharCode(newCharcode);
+          } else {
+            replacementDataString += String.fromCharCode(newCharcode - q);
+          }
         }
       }
 
