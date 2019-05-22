@@ -6,12 +6,18 @@ if($mysqli->connect_error) {
 
 
 if(isset($_GET["make"]) && $_GET["make"] == 0){
-  $sql = "SELECT * FROM data";
+  $sql = "SELECT * FROM data_changeindex";
 $result = mysqli_query($mysqli, $sql);
 $jsonarray = '[';
+$index = 1;
+$num_rows =  mysqli_num_rows($result);
 while($row = mysqli_fetch_array($result)) {
-  $jsonarray .= $row['data'] . '';
-  break;
+  if($index < $num_rows){
+    $jsonarray .= $row['data'] . ',';
+  }else{
+    $jsonarray .= $row['data'];
+  }
+  $index++;
 }
 $jsonarray .= ']';
 
@@ -22,7 +28,7 @@ $jsonarray .= ']';
 if(isset($_GET["make"]) && $_GET["make"] == 1){
   $jsondata = ($_GET['data']);
   //echo "yoyoyoyo " . $jsondata . " was it data here?";
-  $sql = "INSERT INTO data (data)
+  $sql = "INSERT INTO data_changeindex (data)
           VALUES ('$jsondata')";
 
   if ($mysqli->query($sql) === TRUE) {

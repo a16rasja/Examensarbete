@@ -1,30 +1,29 @@
-var indexArray = {}
 var obfuscatedArray;
-var charCode = 97;
 var jqueryData;
 var string;
+var i = (localStorage.getItem('count') != null) ? JSON.parse(localStorage.getItem('count')) : 0;
 
 function init() {
   //save obfuscated array, obfuscate data fron external file.
   $("#button").click(function() {
     var response = '';
-    console.log("clicked");
     $.ajax({
       type: "GET",
       url: "servers.php?make=0",
       success: function(text) {
         response = text;
-        //string = response;
-        response = response.replace(/\\"/g, '\'');
-        //response = caesarDecryption(response);
-        console.log(response);
-        $("#new").html(caesarDecryption(response));
+        //response = response.replace(/\\"/g, '\'');
+        printSchedule(response, 'old')
+        console.log(text);
+        var decryptedResponse = nameDeObf(response);
+        printSchedule(decryptedResponse, 'new');
+
       }
-    });
+    }).then(function() {
+      var stop = new Date().getTime();
+      localStorage.setItem("stopTime", stop);
+    })
   });
-  //printSchedule(JSON.stringify(data), 'old');
-  //obfuscatedArray = caesarEncryption(JSON.stringify(data));
-  //printSchedule(obfuscatedArray, 'new');
 }
 
 function loadDoc() {
@@ -60,14 +59,18 @@ function hideElement() {
 
 //Obfuscation function for changing name of indexes
 function changeNameObf(arrayJSON) {
+  var indexArray = {};
+  var charCode = 97;
+  var newObject = {};
+  var keys = [];
   var oldArray = JSON.parse(arrayJSON);
+  var start = new Date().getTime();
 
   //make sure object is inside of array
   if (!Array.isArray(oldArray)) {
     var temp = [];
     temp.push(oldArray);
     oldArray = temp;
-    //console.log(oldArray);
   }
 
   //Fill array with replacement indexes
@@ -88,23 +91,75 @@ function changeNameObf(arrayJSON) {
       if (typeof(element[obj]) == 'object') {
         element[obj] = changeNameObf(JSON.stringify(element[obj]));
       }
-      if (element[obj]) {
+      if (element[obj] || element[obj] == 0) {
         tempArray[indexArray[obj]] = element[obj];
       }
     }
+
+    for (var key in indexArray) {
+      keys.push(key);
+    }
+
+    var j = 0;
+    var k = keys.length - 1;
+    for (var i = keys.length - 1; i >= 0; i--) {
+      var value = keys[k];
+      newObject[indexArray[keys[j]]] = value;
+      k--;
+      j++;
+    }
+    tempArray["indexes"] = newObject;
+    nyArray.push(tempArray);
+  });
+  var stop = new Date().getTime();
+  localStorage.setItem('deObfNameTime', (stop - start));
+  console.log(stop - start);
+  return JSON.stringify(nyArray[0]);
+}
+
+//Deobfuscate changeNameObf
+function nameDeObf(arrayJSON) {
+  var indexArray = {};
+  var newObject = {};
+  var keys = [];
+  var oldArray = JSON.parse(arrayJSON);
+  var start = new Date().getTime();
+
+  //Change index on every item in array
+  var nyArray = [];
+  oldArray.forEach(function(element) {
+    var tempArray = {};
+    var indexArray = element.indexes;
+
+
+    for (var key in indexArray) {
+      keys.push(key);
+    }
+
+    var j = 0;
+    var k = keys.length - 1;
+    for (var i = keys.length - 1; i >= 0; i--) {
+      var value = indexArray[keys[k]];
+      newObject[keys[j]] = value;
+      k--;
+      j++;
+    }
+    indexArray = newObject;
+
+    for (var obj in element) {
+      if (obj != 'indexes') {
+        if (element[obj] || element[obj] == 0) {
+          tempArray[indexArray[obj]] = element[obj];
+        }
+      }
+    }
+
     nyArray.push(tempArray);
   });
 
-  //print unobfuscated array in console
-  oldArray.forEach(function(e) {
-    //console.log("Den som inte har blivit obfuskerad!")
-    //console.log(e);
-  });
-  //print obfuscated array in console
-  nyArray.forEach(function(e) {
-    //console.log("Den som har blivit obfuskerad!")
-    //console.log(e);
-  });
+  var stop = new Date().getTime();
+  localStorage.setItem('deObfNameTime', (stop - start));
+  console.log(stop - start);
   return JSON.stringify(nyArray);
 }
 
@@ -136,19 +191,20 @@ function caesarEncryption(arrayJSON) {
         indexNames[obj] += String.fromCharCode(obj[i].charCodeAt() + q);
       }
 
-      //Convert number to string
-      if (typeof(tempDataString) == "number") {
-        tempDataString = tempDataString.toString();
-      }
+      if (tempDataString != null) {
+        //Convert number to string
+        if (typeof(tempDataString) == "number") {
+          tempDataString = tempDataString.toString();
+        }
 
-      //Encrypts data in array
-      for (var i = 0; i < tempDataString.length; i++) {
-        var newCharcode = tempDataString[i].charCodeAt();
-        if (newCharcode == 32 || newCharcode == 92 - 3) {
-          console.log("92||32>")
-          replacementDataString += String.fromCharCode(newCharcode);
-        } else {
-          replacementDataString += String.fromCharCode(newCharcode + q);
+        //Encrypts data in array
+        for (var i = 0; i < tempDataString.length; i++) {
+          var newCharcode = tempDataString[i].charCodeAt();
+          if (newCharcode == 32 || newCharcode == 92 - 3) {
+            replacementDataString += String.fromCharCode(newCharcode);
+          } else {
+            replacementDataString += String.fromCharCode(newCharcode + q);
+          }
         }
       }
 
@@ -174,47 +230,28 @@ function printSchedule(printItem, printPlace) {
     }
     text += "</div>";
   })
-  printPlace.innerHTML += text;
+  printPlace.innerHTML = text;
 }
 
-function insertObject() {
-  var start = new Date();
-  var v = $("#objectField").val();
-  v = caesarEncryption(v);
-  //console.log("servers.php?make=1&jsonstring=" + v);
-  $.ajax({
-    type: "get",
-    url: "servers.php?make=1&data=" + v,
-    success: function(data) {
-
-      bool = true;
-      $("#objectField").val("");
-      var diff = new Date() - start;
-      console.log(diff);
-      return;
-    }
-  })
-
-  //console.log("klickade på insert knappen!" + v);
-}
-
+//decrypt caesarEncryption
 function caesarDecryption(arrayJSON) {
+  var s = new Date();
   var oldArray = JSON.parse(arrayJSON);
   var encryptedArray = [];
   var q = 3;
+  var start = new Date().getTime();
 
   //make sure object is inside of array
   if (!Array.isArray(oldArray)) {
     var temp = [];
     temp.push(oldArray);
     oldArray = temp;
-    //console.log(oldArray);
   }
 
   oldArray.forEach(function(e) {
     var indexNames = [];
     var tempArray = {};
-
+    var hej = "";
     for (var obj in e) {
       indexNames[obj] = "";
       var tempDataString = e[obj];
@@ -225,18 +262,20 @@ function caesarDecryption(arrayJSON) {
         indexNames[obj] += String.fromCharCode(obj[i].charCodeAt() - q);
       }
 
-      //Convert number to string
-      if (typeof(tempDataString) == "number") {
-        tempDataString = tempDataString.toString();
-      }
+      if (tempDataString != null) {
+        //Convert number to string
+        if (typeof(tempDataString) == "number") {
+          tempDataString = tempDataString.toString();
+        }
 
-      //Encrypts data in array
-      for (var i = 0; i < tempDataString.length; i++) {
-        var newCharcode = tempDataString[i].charCodeAt();
-        if (newCharcode == 32 || newCharcode == (92 - 3)) {
-          replacementDataString += String.fromCharCode(newCharcode);
-        } else {
-          replacementDataString += String.fromCharCode(newCharcode - q);
+        //Decrypts data in array
+        for (var i = 0; i < tempDataString.length; i++) {
+          var newCharcode = tempDataString[i].charCodeAt();
+          if (newCharcode == 32 || newCharcode == (92 - 3)) {
+            replacementDataString += String.fromCharCode(newCharcode);
+          } else {
+            replacementDataString += String.fromCharCode(newCharcode - q);
+          }
         }
       }
 
@@ -245,27 +284,23 @@ function caesarDecryption(arrayJSON) {
     }
     encryptedArray.push(tempArray);
   });
-  console.log(encryptedArray);
+  var stop = new Date().getTime();
+  localStorage.setItem('deObfNameTime', (stop - start));
+  console.log(stop - start);
   return JSON.stringify(encryptedArray);
 }
 
-/*function printArray(arrayToPrint, printContainerName) {
-  var printArray = JSON.parse(arrayToPrint);
-  var printPlace = document.getElementById(printContainerName);
-  var text = "<table>";
-  for (var o in printArray[0]) {
-    text += "<th>" + o + "</th>"
-  }
-  printArray.forEach(function(e) {
-    text += "<tr>"
-    for (var obj in p) {
-      text += "<td>" + e[obj] + ":</td> ";
+//Insert object into database
+function insertObject() {
+  var v = $("#objectField").val();
+  //v = changeNameObf(v);
+  v = caesarEncryption(v);
+  $.ajax({
+    type: "get",
+    url: "servers.php?make=1&data=" + v,
+    success: function(data) {
+      $("#objectField").val("");
+      return;
     }
-    text += "</tr>";
-  })
-  text += "</table>"
-
-  printPlace.innerHTML = text;
-
-  //console.log(printPlace.innerHTML);
-}*/
+  });
+}
